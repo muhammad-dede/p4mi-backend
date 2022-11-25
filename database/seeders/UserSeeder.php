@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use DateTime;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -16,18 +17,26 @@ class UserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Admin',
+                'nama' => 'Admin',
+                'nip' => null,
+                'pangkat_golongan' => null,
+                'jabatan' => null,
                 'username' => 'admin',
                 'email' => 'admin@email.com',
+                'email_verified_at' => now(),
                 'password' => bcrypt('password'),
-                'role' => 'admin',
+                'is_admin' => true,
             ],
             [
-                'name' => 'User',
+                'nama' => 'User',
+                'nip' => null,
+                'pangkat_golongan' => null,
+                'jabatan' => null,
                 'username' => 'user',
                 'email' => 'user@email.com',
+                'email_verified_at' => now(),
                 'password' => bcrypt('password'),
-                'role' => 'petugas',
+                'is_admin' => false,
             ],
         ];
 

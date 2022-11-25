@@ -14,7 +14,7 @@ class UserController extends Controller
     {
         $data = User::where('id', '!=', auth()->id())->orderBy('created_at', 'desc')->get();
         return response()->json([
-            'message' => 'Fetch successfully',
+            'message' => 'Success',
             'data' => $data,
         ], 200);
     }
@@ -22,17 +22,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|alpha_dash|unique:users,username',
-            'email' => 'required|email|unique:users,email',
-            'role' => 'required|string|in:admin,petugas',
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:255|unique:user,nip',
+            'pangkat_golongan' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'username' => 'required|string|alpha_dash|unique:user,username',
+            'email' => 'required|email|unique:user,email',
             'password' => 'required|string|min:8',
+            'is_admin' => 'boolean',
         ], [], [
-            'name' => 'Nama',
+            'nama' => 'Nama',
+            'nip' => 'NIP',
+            'pangkat_golongan' => 'Pangkat/Golongan',
+            'jabatan' => 'Jabatan',
             'username' => 'Username',
             'email' => 'Email',
-            'role' => 'Role',
             'password' => 'Password',
+            'is_admin' => 'Is Admin',
         ]);
 
         if ($validator->fails()) {
@@ -42,15 +48,18 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name' => ucfirst($request->name),
+            'nama' => ucfirst($request->nama),
+            'nip' => $request->nip,
+            'pangkat_golongan' => $request->pangkat_golongan,
+            'jabatan' => $request->jabatan,
             'username' => strtolower($request->username),
             'email' => strtolower($request->email),
-            'role' => $request->role,
             'password' => bcrypt($request->password),
+            'is_admin' => $request->is_admin,
         ]);
 
         return response()->json([
-            'message' => 'Create successfully',
+            'message' => 'Success',
             'data' => $user,
         ], 201);
     }
@@ -58,17 +67,23 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|alpha_dash|unique:users,username,' . $id . ',id',
-            'email' => 'required|email|unique:users,email,' . $id . ',id',
-            'role' => 'required|string|in:admin,petugas',
+            'nama' => 'required|string|max:255',
+            'nip' => 'required|string|max:255|unique:user,nip,' . $id . ',id',
+            'pangkat_golongan' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'username' => 'required|string|alpha_dash|unique:user,username,' . $id . ',id',
+            'email' => 'required|email|unique:user,email,' . $id . ',id',
             'password' => 'nullable|string|min:8',
+            'is_admin' => 'boolean',
         ], [], [
-            'name' => 'Nama',
+            'nama' => 'Nama',
+            'nip' => 'NIP',
+            'pangkat_golongan' => 'Pangkat/Golongan',
+            'jabatan' => 'Jabatan',
             'username' => 'Username',
             'email' => 'Email',
-            'role' => 'Role',
             'password' => 'Password',
+            'is_admin' => 'Is Admin',
         ]);
 
         if ($validator->fails()) {
@@ -80,15 +95,18 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $user->update([
-            'name' => ucfirst($request->name),
+            'nama' => ucfirst($request->nama),
+            'nip' => $request->nip,
+            'pangkat_golongan' => $request->pangkat_golongan,
+            'jabatan' => $request->jabatan,
             'username' => strtolower($request->username),
             'email' => strtolower($request->email),
-            'role' => $request->role,
             'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'is_admin' => $request->is_admin,
         ]);
 
         return response()->json([
-            'message' => 'Update successfully',
+            'message' => 'Success',
             'data' => $user,
         ], 200);
     }
@@ -100,7 +118,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-            'message' => 'Delete successfully',
+            'message' => 'Success',
         ], 200);
     }
 }

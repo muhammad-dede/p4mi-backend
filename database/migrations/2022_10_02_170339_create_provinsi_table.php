@@ -14,7 +14,7 @@ class CreateProvinsiTable extends Migration
     public function up()
     {
         Schema::create('provinsi', function (Blueprint $table) {
-            $table->unsignedInteger('id')->primary();
+            $table->unsignedBigInteger('id')->primary();
             $table->string('nama')->nullable();
         });
     }

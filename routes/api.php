@@ -10,12 +10,17 @@ Route::get('/', function () {
 Route::post('login', [\App\Http\Controllers\API\AuthController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('me', [\App\Http\Controllers\API\AuthController::class, 'me']);
+    Route::get('/me', [\App\Http\Controllers\API\AuthController::class, 'me']);
+    Route::post('/profil/update', [\App\Http\Controllers\API\AuthController::class, 'profilUpdate']);
+    Route::post('/password/update', [\App\Http\Controllers\API\AuthController::class, 'passwordUpdate']);
     Route::delete('logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
 
-    Route::group(['prefix' => 'account'], function () {
-        Route::post('/profile/update', [\App\Http\Controllers\API\AccountController::class, 'updateProfile']);
-        Route::post('/password/update', [\App\Http\Controllers\API\AccountController::class, 'updatePassword']);
+    Route::group(['prefix' => 'referensi'], function () {
+        Route::get('/provinsi', [\App\Http\Controllers\API\ReferensiController::class, 'provinsi']);
+        Route::get('/kota', [\App\Http\Controllers\API\ReferensiController::class, 'kota']);
+        Route::get('/status-kedatangan', [\App\Http\Controllers\API\ReferensiController::class, 'statusKedatangan']);
+        Route::get('/penyedia-jasa', [\App\Http\Controllers\API\ReferensiController::class, 'penyediaJasa']);
+        Route::get('/jenis-barang', [\App\Http\Controllers\API\ReferensiController::class, 'jenisBarang']);
     });
 
     Route::group(['prefix' => 'user'], function () {
@@ -27,22 +32,17 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'pmi'], function () {
         Route::get('/', [\App\Http\Controllers\API\PmiController::class, 'index']);
+        Route::get('/{id}', [\App\Http\Controllers\API\PmiController::class, 'show']);
         Route::post('store', [\App\Http\Controllers\API\PmiController::class, 'store']);
         Route::post('update/{id}', [\App\Http\Controllers\API\PmiController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\API\PmiController::class, 'destroy']);
-        Route::post('/search', [\App\Http\Controllers\API\PmiController::class, 'search']);
     });
 
     Route::group(['prefix' => 'makan'], function () {
         Route::get('/', [\App\Http\Controllers\API\MakanController::class, 'index']);
+        Route::get('/detail/{id}', [\App\Http\Controllers\API\MakanController::class, 'detail']);
         Route::post('store', [\App\Http\Controllers\API\MakanController::class, 'store']);
         Route::post('update/{id}', [\App\Http\Controllers\API\MakanController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\API\MakanController::class, 'destroy']);
-    });
-
-    Route::group(['prefix' => 'referensi'], function () {
-        Route::get('/provinsi', [\App\Http\Controllers\API\ReferensiController::class, 'provinsi']);
-        Route::get('/kota', [\App\Http\Controllers\API\ReferensiController::class, 'kota']);
-        Route::get('/status-kedatangan', [\App\Http\Controllers\API\ReferensiController::class, 'statusKedatangan']);
     });
 });

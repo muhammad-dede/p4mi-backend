@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKotaTable extends Migration
+class CreatePenyediaJasaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateKotaTable extends Migration
      */
     public function up()
     {
-        Schema::create('kota', function (Blueprint $table) {
-            $table->unsignedBigInteger('id')->primary();
+        Schema::create('penyedia_jasa', function (Blueprint $table) {
+            $table->id();
             $table->string('nama')->nullable();
-            $table->unsignedBigInteger('id_provinsi')->index()->nullable();
-
-            $table->foreign('id_provinsi')->references('id')->on('provinsi')->onDelete('cascade')->onUpdate('cascade');
+            $table->text('alamat')->nullable();
+            $table->string('email')->nullable();
+            $table->string('telp')->nullable();
+            $table->string('up')->nullable();
         });
     }
 
@@ -29,6 +30,6 @@ class CreateKotaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kota');
+        Schema::dropIfExists('penyedia_jasa');
     }
 }

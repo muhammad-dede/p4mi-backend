@@ -11,10 +11,34 @@ class MakanController extends Controller
 {
     public function index()
     {
-        $data = Makan::orderBy('created_at', 'desc')->get();
+        // if ($request->get('start_date') && $request->get('end_date')) {
+        //     $data = Makan::whereBetween('tgl_antar', [$request->get('start_date'), $request->get('end_date')])->with(['makanDetail', 'user' => function ($query) {
+        //         $query->select('id', 'name');
+        //     }])->orderBy('created_at', 'desc')->get();
+        // } else {
+        //     $data = Makan::with(['makanDetail', 'user' => function ($query) {
+        //         $query->select('id', 'name');
+        //     }])->orderBy('created_at', 'desc')->get();
+        // }
+
+        $data = Makan::with(['makanDetail', 'user' => function ($query) {
+            $query->select('id', 'nama');
+        }])->orderBy('created_at', 'desc')->get();
+
         return response()->json([
-            'message' => 'Fetch successfully',
+            'message' => 'Success',
             'data' => $data,
+        ], 200);
+    }
+
+    public function detail($id)
+    {
+        $makan = Makan::where('id', $id)->with(['makanDetail', 'user' => function ($query) {
+            $query->select('id', 'nama');
+        }])->first();
+        return response()->json([
+            'message' => 'Success',
+            'data' => $makan,
         ], 200);
     }
 
@@ -23,7 +47,7 @@ class MakanController extends Controller
         $validator = Validator::make($request->all(), [
             'po' => 'required|string|max:255|unique:makan,po',
             'tgl_antar' => 'required|date_format:Y-m-d',
-            'waktu_antar' => 'required|time',
+            'waktu_antar' => 'required|date_format:H:i',
         ], [], [
             'po' => 'Nomor Purchase Order',
             'tgl_antar' => 'Tanggal Antar Barang',
@@ -44,9 +68,9 @@ class MakanController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Create successfully',
+            'message' => 'Success',
             'data' => $makan,
-        ], 201);
+        ], 200);
     }
 
     public function update(Request $request, $id)
@@ -77,7 +101,7 @@ class MakanController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Update successfully',
+            'message' => 'Success',
             'data' => $makan,
         ], 200);
     }
@@ -87,7 +111,7 @@ class MakanController extends Controller
         $makan = Makan::findOrFail($id);
         $makan->delete();
         return response()->json([
-            'message' => 'Delete successfully',
+            'message' => 'Success',
         ], 200);
     }
 }

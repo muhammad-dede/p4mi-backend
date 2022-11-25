@@ -14,15 +14,22 @@ class CreateMakanTable extends Migration
     public function up()
     {
         Schema::create('makan', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('po')->nullable()->unique();
-            $table->date('tgl_antar')->nullable();
-            $table->time('waktu_antar')->nullable();
-            $table->string('foto_invoice')->nullable();
-            $table->uuid('id_user')->nullable()->index();
+            $table->id();
+            $table->string('no_po')->nullable()->unique();
+            $table->unsignedBigInteger('id_penyedia_jasa')->nullable();
+            $table->unsignedBigInteger('id_jenis_barang')->nullable();
+            $table->string('lokasi')->nullable();
+            $table->date('tgl')->nullable();
+            $table->enum('waktu', ['P', 'S', 'M'])->nullable();
+            $table->double('durasi')->default(1)->nullable();
+            $table->string('photo_makan')->nullable();
+            $table->string('photo_invoice')->nullable();
+            $table->unsignedBigInteger('id_user')->nullable()->index();
             $table->timestamps();
 
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('set null')->onUpdate('set null');
+            $table->foreign('id_penyedia_jasa')->references('id')->on('penyedia_jasa')->onDelete('set null')->onUpdate('set null');
+            $table->foreign('id_jenis_barang')->references('id')->on('jenis_barang')->onDelete('set null')->onUpdate('set null');
+            $table->foreign('id_user')->references('id')->on('user')->onDelete('set null')->onUpdate('set null');
         });
     }
 

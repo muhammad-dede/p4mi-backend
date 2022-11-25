@@ -2,23 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MakanPmi extends Model
+class MakanDetail extends Model
 {
-    use HasFactory, Uuid;
+    use HasFactory;
 
-    protected $table = 'makan_pmi';
-    protected $primaryKey = 'id';
-    public $incrementing = false;
+    protected $table = 'makan_detail';
 
     protected $guarded = [];
-
-    protected $casts = [
-        'id' => 'string',
-    ];
 
     public function makan()
     {

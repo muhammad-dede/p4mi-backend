@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisBarang;
 use App\Models\Kota;
+use App\Models\PenyediaJasa;
 use App\Models\Provinsi;
 use App\Models\StatusKedatangan;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class ReferensiController extends Controller
     {
         $data = Provinsi::orderBy('nama', 'asc')->get();
         return response()->json([
-            'message' => 'Fetch successfully',
+            'message' => 'Success',
             'data' => $data,
         ], 200);
     }
@@ -27,7 +29,7 @@ class ReferensiController extends Controller
             $data = Kota::orderBy('nama', 'asc')->get();
         }
         return response()->json([
-            'message' => 'Fetch successfully',
+            'message' => 'Success',
             'data' => $data,
         ], 200);
     }
@@ -36,7 +38,25 @@ class ReferensiController extends Controller
     {
         $data = StatusKedatangan::orderBy('id', 'asc')->get();
         return response()->json([
-            'message' => 'Fetch successfully',
+            'message' => 'Success',
+            'data' => $data,
+        ], 200);
+    }
+
+    public function penyediaJasa()
+    {
+        $data = PenyediaJasa::orderBy('id', 'asc')->get();
+        return response()->json([
+            'message' => 'Success',
+            'data' => $data,
+        ], 200);
+    }
+
+    public function jenisBarang()
+    {
+        $data = JenisBarang::orderBy('id', 'asc')->get();
+        return response()->json([
+            'message' => 'Success',
             'data' => $data,
         ], 200);
     }

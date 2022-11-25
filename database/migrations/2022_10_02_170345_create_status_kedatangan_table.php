@@ -14,7 +14,7 @@ class CreateStatusKedatanganTable extends Migration
     public function up()
     {
         Schema::create('status_kedatangan', function (Blueprint $table) {
-            $table->unsignedInteger('id')->primary();
+            $table->unsignedBigInteger('id')->primary();
             $table->string('nama')->nullable();
         });
     }

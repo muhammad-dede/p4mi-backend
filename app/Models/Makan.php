@@ -2,31 +2,34 @@
 
 namespace App\Models;
 
-use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Makan extends Model
 {
-    use HasFactory, Uuid;
+    use HasFactory;
 
     protected $table = 'makan';
-    protected $primaryKey = 'id';
-    public $incrementing = false;
 
     protected $guarded = [];
 
-    protected $casts = [
-        'id' => 'string',
-    ];
+    public function penyediaJasa()
+    {
+        return $this->belongsTo(PenyediaJasa::class, 'id_penyedia_jasa', 'id');
+    }
+
+    public function jenisBarang()
+    {
+        return $this->belongsTo(JenisBarang::class, 'id_jenis_barang', 'id');
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function makanPmi()
+    public function makanDetail()
     {
-        return $this->hasMany(MakanPmi::class, 'id_makan', 'id');
+        return $this->hasMany(MakanDetail::class, 'id_makan', 'id');
     }
 }

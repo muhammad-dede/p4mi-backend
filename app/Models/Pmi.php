@@ -2,23 +2,16 @@
 
 namespace App\Models;
 
-use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pmi extends Model
 {
-    use HasFactory, Uuid;
+    use HasFactory;
 
     protected $table = 'pmi';
-    protected $primaryKey = 'id';
-    public $incrementing = false;
 
     protected $guarded = [];
-
-    protected $casts = [
-        'id' => 'string',
-    ];
 
     public function provinsi()
     {
@@ -40,8 +33,8 @@ class Pmi extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function makanPmi()
+    public function makanDetail()
     {
-        return $this->hasMany(MakanPmi::class, 'id_pmi', 'id');
+        return $this->hasMany(MakanDetail::class, 'id_pmi', 'id');
     }
 }

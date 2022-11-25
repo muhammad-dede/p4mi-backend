@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMakanPmiTable extends Migration
+class CreateMakanDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateMakanPmiTable extends Migration
      */
     public function up()
     {
-        Schema::create('makan_pmi', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('id_makan')->nullable()->index();
-            $table->uuid('id_pmi')->nullable()->index();
+        Schema::create('makan_detail', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_makan')->nullable()->index();
+            $table->unsignedBigInteger('id_pmi')->nullable()->index();
             $table->timestamps();
 
             $table->foreign('id_makan')->references('id')->on('makan')->onDelete('cascade')->onUpdate('cascade');
@@ -31,6 +31,6 @@ class CreateMakanPmiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('makan_pmi');
+        Schema::dropIfExists('makan_detail');
     }
 }
