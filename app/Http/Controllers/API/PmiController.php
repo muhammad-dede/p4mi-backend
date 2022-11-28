@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Validator;
 
 class PmiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Pmi::with(['provinsi', 'kota', 'statusKedatangan', 'user' => function ($query) {
-            $query->select('id', 'nama');
-        }])->orderBy('created_at', 'desc')->get();
+        if ($request->get('start_date') && $request->get('end_date')) {
+            $data = Pmi::whereBetween('tanggal_kembali', [$request->get('start_date'), $request->get('end_date')])->with(['provinsi', 'kota', 'statusKedatangan', 'user' => function ($query) {
+                $query->select('id', 'nama');
+            }])->orderBy('created_at', 'desc')->get();
+        } else {
+            $data = Pmi::with(['provinsi', 'kota', 'statusKedatangan', 'user' => function ($query) {
+                $query->select('id', 'nama');
+            }])->orderBy('created_at', 'desc')->get();
+        }
 
         return response()->json([
             'message' => 'Success',
