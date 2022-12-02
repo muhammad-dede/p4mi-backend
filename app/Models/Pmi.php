@@ -33,8 +33,8 @@ class Pmi extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function makanDetail()
+    public function makan()
     {
-        return $this->hasMany(MakanDetail::class, 'id_pmi', 'id');
+        return $this->belongsToMany(Makan::class, 'makan_pmi', 'id_makan', 'id_pmi');
     }
 }

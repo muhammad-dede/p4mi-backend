@@ -28,8 +28,8 @@ class Makan extends Model
         return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
-    public function makanDetail()
+    public function pmi()
     {
-        return $this->hasMany(MakanDetail::class, 'id_makan', 'id');
+        return $this->belongsToMany(Pmi::class, 'makan_pmi', 'id_makan', 'id_pmi');
     }
 }
