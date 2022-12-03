@@ -57,8 +57,8 @@ class PmiController extends Controller
             'id_status_kedatangan' => 'required|string',
             'masalah' => 'nullable|string',
             'tuntutan' => 'nullable|string',
-            'photo_pmi' => 'required|max:2048|mimes:jpg,jpeg,png',
-            'photo_paspor' => 'required|max:2048|mimes:jpg,jpeg,png',
+            'photo_pmi' => 'required|max:5000|mimes:jpg,jpeg,png',
+            'photo_paspor' => 'required|max:5000|mimes:jpg,jpeg,png',
         ], [], [
             'no_paspor' => 'No Paspor',
             'nama' => 'Nama',
@@ -159,8 +159,8 @@ class PmiController extends Controller
             'id_status_kedatangan' => 'required|string',
             'masalah' => 'nullable|string',
             'tuntutan' => 'nullable|string',
-            'photo_pmi' => 'nullable|max:2048|mimes:jpg,jpeg,png',
-            'photo_paspor' => 'nullable|max:2048|mimes:jpg,jpeg,png',
+            'photo_pmi' => 'nullable|max:5000|mimes:jpg,jpeg,png',
+            'photo_paspor' => 'nullable|max:5000|mimes:jpg,jpeg,png',
         ], [], [
             'no_paspor' => 'No Paspor',
             'nama' => 'Nama',

@@ -45,5 +45,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('update/{id}', [\App\Http\Controllers\API\MakanController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\API\MakanController::class, 'destroy']);
         Route::post('pmi', [\App\Http\Controllers\API\MakanController::class, 'pmi']);
+        Route::post('upload/photo-makan', [\App\Http\Controllers\API\MakanController::class, 'uploadPhotoMakan']);
+        Route::post('upload/photo-invoice', [\App\Http\Controllers\API\MakanController::class, 'uploadPhotoInvoice']);
     });
 });
