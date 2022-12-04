@@ -27,6 +27,7 @@ class CreatePmiTable extends Migration
             $table->year('tahun_bekerja')->nullable();
             $table->date('tanggal_kembali')->nullable();
             $table->unsignedBigInteger('id_status_kedatangan')->nullable()->index();
+            $table->unsignedBigInteger('id_status_pemulangan')->nullable()->index();
             $table->text('masalah')->nullable();
             $table->text('tuntutan')->nullable();
             $table->string('photo_pmi')->nullable();
@@ -37,6 +38,7 @@ class CreatePmiTable extends Migration
             $table->foreign('id_provinsi')->references('id')->on('provinsi')->onDelete('set null')->onUpdate('set null');
             $table->foreign('id_kota')->references('id')->on('kota')->onDelete('set null')->onUpdate('set null');
             $table->foreign('id_status_kedatangan')->references('id')->on('status_kedatangan')->onDelete('set null')->onUpdate('set null');
+            $table->foreign('id_status_pemulangan')->references('id')->on('status_pemulangan')->onDelete('set null')->onUpdate('set null');
             $table->foreign('id_user')->references('id')->on('user')->onDelete('set null')->onUpdate('set null');
         });
     }

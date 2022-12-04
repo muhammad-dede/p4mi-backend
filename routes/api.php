@@ -19,8 +19,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/provinsi', [\App\Http\Controllers\API\ReferensiController::class, 'provinsi']);
         Route::get('/kota', [\App\Http\Controllers\API\ReferensiController::class, 'kota']);
         Route::get('/status-kedatangan', [\App\Http\Controllers\API\ReferensiController::class, 'statusKedatangan']);
+        Route::get('/status-pemulangan', [\App\Http\Controllers\API\ReferensiController::class, 'statusPemulangan']);
         Route::get('/penyedia-jasa', [\App\Http\Controllers\API\ReferensiController::class, 'penyediaJasa']);
         Route::get('/jenis-barang', [\App\Http\Controllers\API\ReferensiController::class, 'jenisBarang']);
+        Route::get('/jenis-pengangkutan', [\App\Http\Controllers\API\ReferensiController::class, 'jenisPengangkutan']);
     });
 
     Route::group(['prefix' => 'user'], function () {
@@ -47,5 +49,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('pmi', [\App\Http\Controllers\API\MakanController::class, 'pmi']);
         Route::post('upload/photo-makan', [\App\Http\Controllers\API\MakanController::class, 'uploadPhotoMakan']);
         Route::post('upload/photo-invoice', [\App\Http\Controllers\API\MakanController::class, 'uploadPhotoInvoice']);
+    });
+
+    Route::group(['prefix' => 'pemulangan'], function () {
+        Route::get('/', [\App\Http\Controllers\API\PemulanganController::class, 'index']);
+        Route::get('/detail/{id}', [\App\Http\Controllers\API\PemulanganController::class, 'detail']);
+        Route::post('store', [\App\Http\Controllers\API\PemulanganController::class, 'store']);
+        Route::post('update/{id}', [\App\Http\Controllers\API\PemulanganController::class, 'update']);
+        Route::delete('destroy/{id}', [\App\Http\Controllers\API\PemulanganController::class, 'destroy']);
+        Route::post('pmi', [\App\Http\Controllers\API\PemulanganController::class, 'pmi']);
+        Route::post('upload/photo-pemulangan', [\App\Http\Controllers\API\PemulanganController::class, 'uploadPhotoMakan']);
+        Route::post('upload/photo-invoice', [\App\Http\Controllers\API\PemulanganController::class, 'uploadPhotoInvoice']);
     });
 });
