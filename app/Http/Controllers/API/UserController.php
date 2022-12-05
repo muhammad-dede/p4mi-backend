@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -28,8 +29,8 @@ class UserController extends Controller
             'jabatan' => 'required|string|max:255',
             'username' => 'required|string|alpha_dash|unique:user,username',
             'email' => 'required|email|unique:user,email',
-            'password' => 'required|string|min:8',
-            'is_admin' => 'boolean',
+            'is_admin' => 'required|boolean',
+            'password' => 'required|string|min:8|confirmed',
         ], [], [
             'nama' => 'Nama',
             'nip' => 'NIP',
@@ -38,7 +39,7 @@ class UserController extends Controller
             'username' => 'Username',
             'email' => 'Email',
             'password' => 'Password',
-            'is_admin' => 'Is Admin',
+            'is_admin' => 'Role',
         ]);
 
         if ($validator->fails()) {
@@ -55,13 +56,14 @@ class UserController extends Controller
             'username' => strtolower($request->username),
             'email' => strtolower($request->email),
             'password' => bcrypt($request->password),
-            'is_admin' => $request->is_admin,
+            'is_admin' => $request->is_admin == "0" ? 0 : 1,
+            'email_verified_at' => now(),
         ]);
 
         return response()->json([
             'message' => 'Success',
             'data' => $user,
-        ], 201);
+        ], 200);
     }
 
     public function update(Request $request, $id)
@@ -73,8 +75,8 @@ class UserController extends Controller
             'jabatan' => 'required|string|max:255',
             'username' => 'required|string|alpha_dash|unique:user,username,' . $id . ',id',
             'email' => 'required|email|unique:user,email,' . $id . ',id',
-            'password' => 'nullable|string|min:8',
-            'is_admin' => 'boolean',
+            'is_admin' => 'required|boolean',
+            'password' => 'nullable|string|min:8|confirmed',
         ], [], [
             'nama' => 'Nama',
             'nip' => 'NIP',
@@ -83,7 +85,7 @@ class UserController extends Controller
             'username' => 'Username',
             'email' => 'Email',
             'password' => 'Password',
-            'is_admin' => 'Is Admin',
+            'is_admin' => 'Role',
         ]);
 
         if ($validator->fails()) {
@@ -102,7 +104,7 @@ class UserController extends Controller
             'username' => strtolower($request->username),
             'email' => strtolower($request->email),
             'password' => $request->password ? bcrypt($request->password) : $user->password,
-            'is_admin' => $request->is_admin,
+            'is_admin' => $request->is_admin == "0" ? 0 : 1,
         ]);
 
         return response()->json([

@@ -32,6 +32,27 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::delete('destroy/{id}', [\App\Http\Controllers\API\UserController::class, 'destroy']);
     });
 
+    Route::group(['prefix' => 'penyedia-jasa'], function () {
+        Route::get('/', [\App\Http\Controllers\API\PenyediaJasaController::class, 'index']);
+        Route::post('store', [\App\Http\Controllers\API\PenyediaJasaController::class, 'store']);
+        Route::post('update/{id}', [\App\Http\Controllers\API\PenyediaJasaController::class, 'update']);
+        Route::delete('destroy/{id}', [\App\Http\Controllers\API\PenyediaJasaController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'jenis-barang'], function () {
+        Route::get('/', [\App\Http\Controllers\API\JenisBarangController::class, 'index']);
+        Route::post('store', [\App\Http\Controllers\API\JenisBarangController::class, 'store']);
+        Route::post('update/{id}', [\App\Http\Controllers\API\JenisBarangController::class, 'update']);
+        Route::delete('destroy/{id}', [\App\Http\Controllers\API\JenisBarangController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'jenis-pengangkutan'], function () {
+        Route::get('/', [\App\Http\Controllers\API\JenisPengangkutanController::class, 'index']);
+        Route::post('store', [\App\Http\Controllers\API\JenisPengangkutanController::class, 'store']);
+        Route::post('update/{id}', [\App\Http\Controllers\API\JenisPengangkutanController::class, 'update']);
+        Route::delete('destroy/{id}', [\App\Http\Controllers\API\JenisPengangkutanController::class, 'destroy']);
+    });
+
     Route::group(['prefix' => 'pmi'], function () {
         Route::get('/', [\App\Http\Controllers\API\PmiController::class, 'index']);
         Route::get('/{id}', [\App\Http\Controllers\API\PmiController::class, 'show']);
