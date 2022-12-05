@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('update/{id}', [\App\Http\Controllers\API\PemulanganController::class, 'update']);
         Route::delete('destroy/{id}', [\App\Http\Controllers\API\PemulanganController::class, 'destroy']);
         Route::post('pmi', [\App\Http\Controllers\API\PemulanganController::class, 'pmi']);
-        Route::post('upload/photo-pemulangan', [\App\Http\Controllers\API\PemulanganController::class, 'uploadPhotoMakan']);
+        Route::post('upload/photo-pemulangan', [\App\Http\Controllers\API\PemulanganController::class, 'uploadPhotoPemulangan']);
         Route::post('upload/photo-invoice', [\App\Http\Controllers\API\PemulanganController::class, 'uploadPhotoInvoice']);
     });
 });

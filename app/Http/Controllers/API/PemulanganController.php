@@ -132,6 +132,16 @@ class PemulanganController extends Controller
     public function destroy($id)
     {
         $data = Pemulangan::findOrFail($id);
+
+        $path = 'uploads/photos';
+        if (File::exists(public_path($path . '/' . basename($data->photo_pemulangan)))) {
+            File::delete(public_path($path . '/' . basename($data->photo_pemulangan)));
+        }
+
+        if (File::exists(public_path($path . '/' . basename($data->photo_invoice)))) {
+            File::delete(public_path($path . '/' . basename($data->photo_invoice)));
+        }
+
         $data->delete();
         return response()->json([
             'message' => 'Success',
@@ -143,7 +153,7 @@ class PemulanganController extends Controller
         $pemulangan = Pemulangan::findOrFail($request->id_pemulangan);
         $pemulangan->pmi()->sync($request->id_pmi);
 
-        $data = Pemulangan::where('id', $request->id_makan)->with(['penyediaJasa', 'jenisPemulangan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $pemulangan->id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
 

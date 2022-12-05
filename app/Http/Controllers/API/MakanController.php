@@ -138,6 +138,16 @@ class MakanController extends Controller
     public function destroy($id)
     {
         $makan = Makan::findOrFail($id);
+
+        $path = 'uploads/photos';
+        if (File::exists(public_path($path . '/' . basename($makan->photo_makan)))) {
+            File::delete(public_path($path . '/' . basename($makan->photo_makan)));
+        }
+
+        if (File::exists(public_path($path . '/' . basename($makan->photo_invoice)))) {
+            File::delete(public_path($path . '/' . basename($makan->photo_invoice)));
+        }
+
         $makan->delete();
         return response()->json([
             'message' => 'Success',
