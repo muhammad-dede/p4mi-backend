@@ -22,9 +22,9 @@ class PenyediaJasaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:penyedia_jasa,email',
-            'telp' => 'required|string|max:255',
+            'alamat' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255|unique:penyedia_jasa,email',
+            'telp' => 'nullable|string|max:255',
             'up' => 'required|string|max:255',
         ], [], [
             'nama' => 'Nama',
@@ -58,9 +58,9 @@ class PenyediaJasaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
-            'alamat' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:penyedia_jasa,email,' . $id . ',id',
-            'telp' => 'required|string|max:255',
+            'alamat' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255|unique:penyedia_jasa,email,' . $id . ',id',
+            'telp' => 'nullable|string|max:255',
             'up' => 'required|string|max:255',
         ], [], [
             'nama' => 'Nama',
