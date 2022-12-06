@@ -13,6 +13,11 @@ class Pemulangan extends Model
 
     protected $guarded = [];
 
+    public function statusPemulangan()
+    {
+        return $this->belongsTo(StatusPemulangan::class, 'id_status_pemulangan', 'id');
+    }
+
     public function penyediaJasa()
     {
         return $this->belongsTo(PenyediaJasa::class, 'id_penyedia_jasa', 'id');

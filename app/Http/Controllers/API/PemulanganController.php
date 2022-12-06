@@ -13,11 +13,11 @@ class PemulanganController extends Controller
     public function index(Request $request)
     {
         if ($request->get('start_date') && $request->get('end_date')) {
-            $data = Pemulangan::whereBetween('tanggal', [$request->get('start_date'), $request->get('end_date')])->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+            $data = Pemulangan::whereBetween('tanggal', [$request->get('start_date'), $request->get('end_date')])->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
                 $query->select('id', 'nama');
             }, 'pmi'])->orderBy('created_at', 'desc')->get();
         } else {
-            $data = Pemulangan::with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+            $data = Pemulangan::with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
                 $query->select('id', 'nama');
             }, 'pmi'])->orderBy('created_at', 'desc')->get();
         }
@@ -30,7 +30,7 @@ class PemulanganController extends Controller
 
     public function detail($id)
     {
-        $data = Pemulangan::where('id', $id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $id)->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
         return response()->json([
@@ -42,14 +42,16 @@ class PemulanganController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'no_po' => 'required|string|max:255|unique:pemulangan,no_po',
-            'id_penyedia_jasa' => 'required|string',
-            'id_jenis_pengangkutan' => 'required|string',
-            'lokasi' => 'required|string|max:255',
+            'id_status_pemulangan' => 'required|string',
+            'nomor' => 'required|string|max:255|unique:pemulangan,nomor',
+            'id_penyedia_jasa' => 'nullable|string',
+            'id_jenis_pengangkutan' => 'nullable|string',
+            'lokasi' => 'nullable|string|max:255',
             'tanggal' => 'required|date_format:Y-m-d',
-            'durasi' => 'required|string',
+            'durasi' => 'nullable|string',
         ], [], [
-            'no_po' => 'Nomor Purchase Order',
+            'id_status_pemulangan' => 'Status Pemulangan',
+            'nomor' => 'Nomor',
             'id_penyedia_jasa' => 'Penyedia Jasa',
             'id_jenis_pengangkutan' => 'Jenis Pengangkutan',
             'lokasi' => 'Lokasi',
@@ -64,7 +66,8 @@ class PemulanganController extends Controller
         }
 
         $pemulangan = Pemulangan::create([
-            'no_po' => $request->no_po,
+            'id_status_pemulangan' => $request->id_status_pemulangan,
+            'nomor' => $request->nomor,
             'id_penyedia_jasa' => $request->id_penyedia_jasa,
             'id_jenis_pengangkutan' => $request->id_jenis_pengangkutan,
             'lokasi' => $request->lokasi,
@@ -73,7 +76,7 @@ class PemulanganController extends Controller
             'id_user' => auth()->id(),
         ]);
 
-        $data = Pemulangan::where('id', $pemulangan->id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $pemulangan->id)->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
 
@@ -86,14 +89,16 @@ class PemulanganController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'no_po' => 'required|string|max:255|unique:pemulangan,no_po,' . $id . ',id',
+            'id_status_pemulangan' => 'required|string',
+            'nomor' => 'required|string|max:255|unique:pemulangan,nomor,' . $id . ',id',
             'id_penyedia_jasa' => 'required|string',
             'id_jenis_pengangkutan' => 'required|string',
             'lokasi' => 'required|string|max:255',
             'tanggal' => 'required|date_format:Y-m-d',
             'durasi' => 'required|string',
         ], [], [
-            'no_po' => 'Nomor Purchase Order',
+            'id_status_pemulangan' => 'Status Pemulangan',
+            'nomor' => 'Nomor',
             'id_penyedia_jasa' => 'Penyedia Jasa',
             'id_jenis_pengangkutan' => 'Jenis Pengangkutan',
             'lokasi' => 'Lokasi',
@@ -110,7 +115,8 @@ class PemulanganController extends Controller
         $pemulangan = Pemulangan::findOrfail($id);
 
         $pemulangan->update([
-            'no_po' => $request->no_po,
+            'id_status_pemulangan' => $request->id_status_pemulangan,
+            'nomor' => $request->nomor,
             'id_penyedia_jasa' => $request->id_penyedia_jasa,
             'id_jenis_pengangkutan' => $request->id_jenis_pengangkutan,
             'lokasi' => $request->lokasi,
@@ -119,7 +125,7 @@ class PemulanganController extends Controller
             'id_user' => auth()->id(),
         ]);
 
-        $data = Pemulangan::where('id', $pemulangan->id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $pemulangan->id)->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
 
@@ -153,7 +159,7 @@ class PemulanganController extends Controller
         $pemulangan = Pemulangan::findOrFail($request->id_pemulangan);
         $pemulangan->pmi()->sync($request->id_pmi);
 
-        $data = Pemulangan::where('id', $pemulangan->id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $pemulangan->id)->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
 
@@ -198,7 +204,7 @@ class PemulanganController extends Controller
             };
         }
 
-        $data = Pemulangan::where('id', $pemulangan->id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $pemulangan->id)->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
 
@@ -243,7 +249,7 @@ class PemulanganController extends Controller
             };
         }
 
-        $data = Pemulangan::where('id', $pemulangan->id)->with(['penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
+        $data = Pemulangan::where('id', $pemulangan->id)->with(['statusPemulangan', 'penyediaJasa', 'jenisPengangkutan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }, 'pmi'])->first();
 

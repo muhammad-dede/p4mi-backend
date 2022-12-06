@@ -13,11 +13,11 @@ class PmiController extends Controller
     public function index(Request $request)
     {
         if ($request->get('start_date') && $request->get('end_date')) {
-            $data = Pmi::whereBetween('tanggal_kembali', [$request->get('start_date'), $request->get('end_date')])->with(['provinsi', 'kota', 'statusKedatangan', 'statusPemulangan', 'user' => function ($query) {
+            $data = Pmi::whereBetween('tanggal_kembali', [$request->get('start_date'), $request->get('end_date')])->with(['provinsi', 'kota', 'statusKedatangan', 'makan', 'pemulangan', 'user' => function ($query) {
                 $query->select('id', 'nama');
             }])->orderBy('created_at', 'desc')->get();
         } else {
-            $data = Pmi::with(['provinsi', 'kota', 'statusKedatangan', 'statusPemulangan', 'user' => function ($query) {
+            $data = Pmi::with(['provinsi', 'kota', 'statusKedatangan', 'makan', 'pemulangan', 'user' => function ($query) {
                 $query->select('id', 'nama');
             }])->orderBy('created_at', 'desc')->get();
         }
@@ -30,7 +30,7 @@ class PmiController extends Controller
 
     public function show($id)
     {
-        $pmi = Pmi::where('id', $id)->with(['provinsi', 'kota', 'statusKedatangan', 'statusPemulangan', 'user' => function ($query) {
+        $pmi = Pmi::where('id', $id)->with(['provinsi', 'kota', 'statusKedatangan', 'makan', 'pemulangan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }])->first();
 
@@ -55,7 +55,6 @@ class PmiController extends Controller
             'tahun_bekerja' => 'required|max:4',
             'tanggal_kembali' => 'required|date_format:Y-m-d',
             'id_status_kedatangan' => 'required|string',
-            'id_status_pemulangan' => 'required|string',
             'masalah' => 'nullable|string',
             'tuntutan' => 'nullable|string',
             'photo_pmi' => 'required|max:5000|mimes:jpg,jpeg,png',
@@ -73,7 +72,6 @@ class PmiController extends Controller
             'tahun_bekerja' => 'Mulai bekerja di luar negeri',
             'tanggal_kembali' => 'Kembali ke dalam negeri',
             'id_status_kedatangan' => 'Status Kedatangan',
-            'id_status_pemulangan' => 'Status Pemulangan',
             'masalah' => 'Jenis Masalah',
             'tuntutan' => 'Tuntutan',
             'photo_pmi' => 'photo PMI',
@@ -99,7 +97,6 @@ class PmiController extends Controller
             'tahun_bekerja' => $request->tahun_bekerja,
             'tanggal_kembali' => $request->tanggal_kembali,
             'id_status_kedatangan' => $request->id_status_kedatangan,
-            'id_status_pemulangan' => $request->id_status_pemulangan,
             'masalah' => $request->masalah,
             'tuntutan' => $request->tuntutan,
             'id_user' => auth()->id(),
@@ -135,7 +132,7 @@ class PmiController extends Controller
             };
         }
 
-        $data = Pmi::where('id', $pmi->id)->with(['provinsi', 'kota', 'statusKedatangan', 'statusPemulangan', 'user' => function ($query) {
+        $data = Pmi::where('id', $pmi->id)->with(['provinsi', 'kota', 'statusKedatangan', 'makan', 'pemulangan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }])->first();
 
@@ -160,7 +157,6 @@ class PmiController extends Controller
             'tahun_bekerja' => 'required|max:4',
             'tanggal_kembali' => 'required|date_format:Y-m-d',
             'id_status_kedatangan' => 'required|string',
-            'id_status_pemulangan' => 'required|string',
             'masalah' => 'nullable|string',
             'tuntutan' => 'nullable|string',
             'photo_pmi' => 'nullable|max:5000|mimes:jpg,jpeg,png',
@@ -178,7 +174,6 @@ class PmiController extends Controller
             'tahun_bekerja' => 'Mulai bekerja di luar negeri',
             'tanggal_kembali' => 'Kembali ke dalam negeri',
             'id_status_kedatangan' => 'Status Kedatangan',
-            'id_status_pemulangan' => 'Status Pemulangan',
             'masalah' => 'Jenis Masalah',
             'tuntutan' => 'Tuntutan',
             'photo_pmi' => 'photo PMI',
@@ -206,7 +201,6 @@ class PmiController extends Controller
             'tahun_bekerja' => $request->tahun_bekerja,
             'tanggal_kembali' => $request->tanggal_kembali,
             'id_status_kedatangan' => $request->id_status_kedatangan,
-            'id_status_pemulangan' => $request->id_status_pemulangan,
             'masalah' => $request->masalah,
             'tuntutan' => $request->tuntutan,
             'id_user' => auth()->id(),
@@ -254,7 +248,7 @@ class PmiController extends Controller
             };
         }
 
-        $data = Pmi::where('id', $pmi->id)->with(['provinsi', 'kota', 'statusKedatangan', 'statusPemulangan', 'user' => function ($query) {
+        $data = Pmi::where('id', $pmi->id)->with(['provinsi', 'kota', 'statusKedatangan', 'makan', 'pemulangan', 'user' => function ($query) {
             $query->select('id', 'nama');
         }])->first();
 

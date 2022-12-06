@@ -28,11 +28,6 @@ class Pmi extends Model
         return $this->belongsTo(StatusKedatangan::class, 'id_status_kedatangan', 'id');
     }
 
-    public function statusPemulangan()
-    {
-        return $this->belongsTo(StatusPemulangan::class, 'id_status_pemulangan', 'id');
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id');
@@ -40,11 +35,11 @@ class Pmi extends Model
 
     public function makan()
     {
-        return $this->belongsToMany(Makan::class, 'makan_pmi', 'id_makan', 'id_pmi');
+        return $this->belongsToMany(Makan::class, 'makan_pmi', 'id_pmi', 'id_makan');
     }
 
     public function pemulangan()
     {
-        return $this->belongsToMany(Pemulangan::class, 'pemulangan_pmi', 'id_pemulangan', 'id_pmi');
+        return $this->belongsToMany(Pemulangan::class, 'pemulangan_pmi', 'id_pmi', 'id_pemulangan');
     }
 }
