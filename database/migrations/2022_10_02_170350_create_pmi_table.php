@@ -24,7 +24,7 @@ class CreatePmiTable extends Migration
             $table->unsignedBigInteger('id_kota')->nullable()->index();
             $table->string('telepon')->nullable();
             $table->string('negara_tempat_bekerja')->nullable();
-            $table->year('tahun_bekerja')->nullable();
+            $table->string('tahun_bekerja', 4)->nullable();
             $table->date('tanggal_kembali')->nullable();
             $table->unsignedBigInteger('id_status_kedatangan')->nullable()->index();
             $table->text('masalah')->nullable();
