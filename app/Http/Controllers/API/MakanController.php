@@ -15,11 +15,11 @@ class MakanController extends Controller
         if ($request->get('start_date') && $request->get('end_date')) {
             $data = Makan::whereBetween('tanggal', [$request->get('start_date'), $request->get('end_date')])->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
                 $query->select('id', 'nama');
-            }, 'pmi'])->orderBy('created_at', 'desc')->get();
+            }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->orderBy('created_at', 'desc')->get();
         } else {
             $data = Makan::with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
                 $query->select('id', 'nama');
-            }, 'pmi'])->orderBy('created_at', 'desc')->get();
+            }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->orderBy('created_at', 'desc')->get();
         }
 
         return response()->json([
@@ -32,7 +32,7 @@ class MakanController extends Controller
     {
         $makan = Makan::where('id', $id)->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
             $query->select('id', 'nama');
-        }, 'pmi'])->first();
+        }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->first();
         return response()->json([
             'message' => 'Success',
             'data' => $makan,
@@ -78,7 +78,7 @@ class MakanController extends Controller
 
         $data = Makan::where('id', $makan->id)->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
             $query->select('id', 'nama');
-        }, 'pmi'])->first();
+        }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->first();
 
         return response()->json([
             'message' => 'Success',
@@ -127,7 +127,7 @@ class MakanController extends Controller
 
         $data = Makan::where('id', $makan->id)->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
             $query->select('id', 'nama');
-        }, 'pmi'])->first();
+        }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->first();
 
         return response()->json([
             'message' => 'Success',
@@ -161,7 +161,7 @@ class MakanController extends Controller
 
         $data = Makan::where('id', $request->id_makan)->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
             $query->select('id', 'nama');
-        }, 'pmi'])->first();
+        }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->first();
 
         return response()->json([
             'message' => 'Success',
@@ -206,7 +206,7 @@ class MakanController extends Controller
 
         $data = Makan::where('id', $request->id_makan)->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
             $query->select('id', 'nama');
-        }, 'pmi'])->first();
+        }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->first();
 
         return response()->json([
             'message' => 'Success',
@@ -251,7 +251,7 @@ class MakanController extends Controller
 
         $data = Makan::where('id', $request->id_makan)->with(['penyediaJasa', 'jenisBarang', 'user' => function ($query) {
             $query->select('id', 'nama');
-        }, 'pmi'])->first();
+        }, 'pmi', 'pmi.provinsi', 'pmi.kota'])->first();
 
         return response()->json([
             'message' => 'Success',
